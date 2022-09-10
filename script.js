@@ -11,3 +11,5 @@ console.log('slippery snaaake');
 //display a score for every apple that gets eaten & or display max length achieved.
 
 //make it so you can change the color of your slippery snaaake.
+
+const test = document.querySelector('.thisIsATest')
