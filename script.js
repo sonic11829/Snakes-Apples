@@ -12,4 +12,3 @@ console.log('slippery snaaake');
 
 //make it so you can change the color of your slippery snaaake.
 
-const test = document.querySelector('.thisIsATest')
