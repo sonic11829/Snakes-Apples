@@ -1,3 +1,4 @@
+
 console.log('snaAake');
 console.log('slippery snaaake');
 //make the grid that the snake and apples will traverse.
@@ -12,3 +13,19 @@ console.log('slippery snaaake');
 
 //make it so you can change the color of your slippery snaaake.
 
+ let lastRenderTime = 0
+ const snake_speed = 1
+
+function main(currentTime) {
+    window.requestAnimationFrame(main)
+    const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000
+    if (secondsSinceLastRender < 1 / snake_speed) return
+
+    console.log('render')
+    lastRenderTime = currentTime
+
+    update()
+    draw()
+}
+
+window.requestAnimationFrame(main)
