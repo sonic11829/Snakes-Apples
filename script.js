@@ -15,7 +15,7 @@ console.log('slippery snaaake');
 //make it so you can change the color of your slippery snaaake.
 
 let lastRenderTime = 0;
-const snakeSpeed = 3;
+const snakeSpeed = 5;
 const field = document.querySelector('.field');
 
 function main(currentTime) {
@@ -25,39 +25,59 @@ function main(currentTime) {
 
     lastRenderTime = currentTime;
 
+
     update();
     draw();
+    
 }
 
 window.requestAnimationFrame(main);
 
-function update(){
-    updateSnake();
-    updateApple();
-}
 
-function draw(){
-    drawSnake(field);
-    drawApple(field);
-}
-
-//render the snake
+//render the snake and apple
 
 const snakeSkin = [{ x: 9, y: 9}];
+let apple = getRandomApplePosition();
+const EXPANSION_RATE = 1;
+let newSkins = 0;
 
-function updateSnake(){
+
+
+
+
+function addSkins() {
+    for(let i = 0; i < newSkins; i++) {
+        snakeSkin.push({ ...snakeSkin[snakeSkin.length - 1] })
+    }
+
+    newSkins = 0;
+}
+
+function update(){
+    
+
     const snakeControls = getSnakeControls();
-    drawSnake(field);
+    draw(field);
+    
     for (let i = snakeSkin.length - 2; i >= 0; i--) {
         snakeSkin[i + 1] = { ...snakeSkin[i] };
     }
-
+    
     snakeSkin[0].x += snakeControls.x;
     snakeSkin[0].y += snakeControls.y;
+
+    if (onSnake(apple)) {
+        expandSnake(EXPANSION_RATE);
+        apple = getRandomApplePosition();
+    }
+    addSkins();
+
+    
+    
 }
 
-function drawSnake(field){
-    field.innerHTML = "";
+function draw(field){
+    field.innerHTML = '';
     snakeSkin.forEach(skin => {
         const snakeEl = document.createElement('div');
         snakeEl.style.gridRowStart = skin.y;
@@ -65,35 +85,55 @@ function drawSnake(field){
         snakeEl.classList.add('snake');
         field.appendChild(snakeEl);
     })
-    
-}
 
-//render apple
-
-let apple = { x: 1, y: -1};
-
-function updateApple() {
-    drawApple(field);
-}
-
-function drawApple(field) {
-    field.innerHTML = "";
     const appleEl = document.createElement('div');
     appleEl.style.gridRowStart = apple.y;
     appleEl.style.gridColumnStart = apple.x;
     appleEl.classList.add('apple');
     field.appendChild(appleEl);
+    
 }
 
-//give controls to the player
+function expandSnake(amount) {
+    newSkins += amount
+}
 
-let snakeControls = { x: 0, y: 0 };
-let lastSnakeDirection = { x: 0, y: 0 };
+function onSnake(position) {
+    return snakeSkin.some(skin => {
+        return equalPositions(skin, position)
+    })
+}
+
+function equalPositions(pos1, pos2) {
+    return pos1.x === pos2.x && pos1.y === pos2.y
+}
+
+function randomGridPosition() {
+    return {
+        x: Math.floor(Math.random() * 17) + 1,
+        y: Math.floor(Math.random() * 17) + 1
+    }
+}
+
+function getRandomApplePosition() {
+    let newApplePosition
+    while (newApplePosition == null || onSnake(newApplePosition)) {
+        newApplePosition = randomGridPosition()
+    }
+    return newApplePosition
+}
+
+
+
+//give controls to the player
 
 function getSnakeControls() {
     lastSnakeDirection = snakeControls;
     return snakeControls;
 }
+
+let snakeControls = { x: 0, y: 0 };
+let lastSnakeDirection = { x: 0, y: 0 };
 
 window.addEventListener('keydown', e => {
     switch (e.key) {
