@@ -16,9 +16,14 @@ console.log('slippery snaaake');
 
 let lastRenderTime = 0;
 const snakeSpeed = 5;
+let gameOver = false;
 const field = document.querySelector('.field');
 
 function main(currentTime) {
+    if (gameOver) {
+       return alert('you lose')
+    }
+    
     window.requestAnimationFrame(main);
     const timeAfterLastRender = (currentTime - lastRenderTime) / 1000;
     if (timeAfterLastRender < 1 / snakeSpeed) return;
@@ -72,7 +77,7 @@ function update(){
     }
     addSkins();
 
-    
+    checkDeath()
     
 }
 
@@ -110,8 +115,8 @@ function equalPositions(pos1, pos2) {
 
 function randomGridPosition() {
     return {
-        x: Math.floor(Math.random() * 17) + 1,
-        y: Math.floor(Math.random() * 17) + 1
+        x: Math.ceil(Math.random() * 17),
+        y: Math.ceil(Math.random() * 17)
     }
 }
 
@@ -123,7 +128,9 @@ function getRandomApplePosition() {
     return newApplePosition
 }
 
-
+function checkDeath() (
+    gameOver = outsideGrid(getSnakeHead()) || snakeIntersection
+)
 
 //give controls to the player
 
