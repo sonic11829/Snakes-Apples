@@ -1,7 +1,26 @@
 
 
-console.log('snaAake');
-console.log('slippery snaaake');
+
+
+
+const modal = document.querySelector("#modal")
+
+const closeBtn = document.querySelector("#close")
+
+
+const openModal = (evt) => {
+    modal.style.display = "block";
+} 
+
+const closeModal = (evt) => {
+    modal.style.display = "none";
+}
+
+closeBtn.addEventListener("click", closeModal)
+
+openModal()
+
+
 //make the grid that the snake and apples will traverse.
 
 //make the snake and give it functionallity.
@@ -10,30 +29,28 @@ console.log('slippery snaaake');
 
 //make the snake grow everytime an apple has eaten.
 
-//display a score for every apple that gets eaten & or display max length achieved.
-
-//make it so you can change the color of your slippery snaaake.
-
 let lastRenderTime = 0;
-const snakeSpeed = 5;
+const snakeSpeed = 7;
 let gameOver = false;
 const field = document.querySelector('.field');
 
 function main(currentTime) {
+    
+
     if (gameOver) {
-       if (confirm('You lose! Press ok to restart!')) {
+       if (confirm('Game Over! Press ok to restart!')) {
         window.location = './index.html'
        }
-       return
+        return openModal()
     }
-    
+
     window.requestAnimationFrame(main);
     const timeAfterLastRender = (currentTime - lastRenderTime) / 1000;
     if (timeAfterLastRender < 1 / snakeSpeed) return;
 
     lastRenderTime = currentTime;
 
-
+    
     update();
     draw();
     
