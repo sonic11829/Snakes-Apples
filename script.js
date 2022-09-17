@@ -30,7 +30,7 @@ openModal()
 //make the snake grow everytime an apple has eaten.
 
 let lastRenderTime = 0;
-const snakeSpeed = 7;
+const snakeSpeed = 8;
 let gameOver = false;
 const field = document.querySelector('.field');
 

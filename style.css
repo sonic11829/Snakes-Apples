@@ -37,7 +37,11 @@ body {
 h1 {
     color: red;
     text-align: center;
-    background-color: greenyellow;
+    background: linear-gradient(
+        0deg, 
+        green,
+        lightgreen
+    );
     width: 250px;
 }
 
@@ -57,17 +61,35 @@ h1 {
 }
 
 .snake {
-    background-color: green;
+    background: linear-gradient(
+        90deg, 
+        green,
+        yellow
+    );
     border: .25vmin solid black;
     border-radius: 40%;
     rotate: 45deg;
 }
 
 .apple {
-    background-color: red;
+    background: red;
     border: .25vmin solid black;
-    border-radius: 50%;
+    border-radius: 35%;
+    -webkit-animation: spin .4s linear infinite;
+    -moz-animation: spin .4s linear infinite;
+    animation: spin .4s linear infinite;
 }
+
+@-webkit-keyframes spin{
+    100%{-webkit-transform: rotate(360deg);}
+}
+@-moz-keyframes spin{
+    100%{-webkit-transform: rotate(360deg);}
+}
+@keyframes spin{
+    100%{-webkit-transform: rotate(360deg);}
+}
+
 
 button {
     background-color: green;
