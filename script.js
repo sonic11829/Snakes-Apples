@@ -21,7 +21,10 @@ const field = document.querySelector('.field');
 
 function main(currentTime) {
     if (gameOver) {
-       return alert('you lose')
+       if (confirm('You lose! Press ok to restart!')) {
+        window.location = './index.html'
+       }
+       return
     }
     
     window.requestAnimationFrame(main);
@@ -46,10 +49,6 @@ let apple = getRandomApplePosition();
 const EXPANSION_RATE = 1;
 let newSkins = 0;
 
-
-
-
-
 function addSkins() {
     for(let i = 0; i < newSkins; i++) {
         snakeSkin.push({ ...snakeSkin[snakeSkin.length - 1] })
@@ -59,17 +58,21 @@ function addSkins() {
 }
 
 function update(){
-    
-
     const snakeControls = getSnakeControls();
     draw(field);
     
+    
+
     for (let i = snakeSkin.length - 2; i >= 0; i--) {
         snakeSkin[i + 1] = { ...snakeSkin[i] };
     }
     
+    
     snakeSkin[0].x += snakeControls.x;
     snakeSkin[0].y += snakeControls.y;
+
+    
+    checkDeath()
 
     if (onSnake(apple)) {
         expandSnake(EXPANSION_RATE);
@@ -77,8 +80,8 @@ function update(){
     }
     addSkins();
 
-    checkDeath()
     
+
 }
 
 function draw(field){
@@ -103,10 +106,29 @@ function expandSnake(amount) {
     newSkins += amount
 }
 
-function onSnake(position) {
-    return snakeSkin.some(skin => {
+function onSnake(position, { ignoreHead = false} = {}) {
+    return snakeSkin.some((skin, index) => {
+        if (ignoreHead && index === 0) return false;
         return equalPositions(skin, position)
     })
+}
+
+function checkDeath() {
+    gameOver = outsideGrid(getSnakeHead()) || snakeIntersection();
+}
+
+function outsideGrid(position) {
+    return (
+        position.x < 1 || position.x > 17 || position.y < 1 || position.y > 17
+    )
+}
+
+function snakeIntersection() {
+    return onSnake(snakeSkin[0], { ignoreHead: true})
+}
+
+function getSnakeHead() {
+    return snakeSkin[0]
 }
 
 function equalPositions(pos1, pos2) {
@@ -127,10 +149,6 @@ function getRandomApplePosition() {
     }
     return newApplePosition
 }
-
-function checkDeath() (
-    gameOver = outsideGrid(getSnakeHead()) || snakeIntersection
-)
 
 //give controls to the player
 
