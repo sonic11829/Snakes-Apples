@@ -1,12 +1,7 @@
 
-
-
-
-
 const modal = document.querySelector("#modal")
 
 const closeBtn = document.querySelector("#close")
-
 
 const openModal = (evt) => {
     modal.style.display = "block";
@@ -19,7 +14,6 @@ const closeModal = (evt) => {
 closeBtn.addEventListener("click", closeModal)
 
 openModal()
-
 
 //make the grid that the snake and apples will traverse.
 
@@ -35,8 +29,6 @@ let gameOver = false;
 const field = document.querySelector('.field');
 
 function main(currentTime) {
-    
-
     if (gameOver) {
        if (confirm('Game Over! Press ok to restart!')) {
         window.location = './index.html'
@@ -49,15 +41,12 @@ function main(currentTime) {
     if (timeAfterLastRender < 1 / snakeSpeed) return;
 
     lastRenderTime = currentTime;
-
-    
+   
     update();
-    draw();
-    
+    draw();    
 }
 
 window.requestAnimationFrame(main);
-
 
 //render the snake and apple
 
@@ -78,17 +67,13 @@ function update(){
     const snakeControls = getSnakeControls();
     draw(field);
     
-    
-
     for (let i = snakeSkin.length - 2; i >= 0; i--) {
         snakeSkin[i + 1] = { ...snakeSkin[i] };
     }
-    
-    
+       
     snakeSkin[0].x += snakeControls.x;
     snakeSkin[0].y += snakeControls.y;
-
-    
+  
     checkDeath()
 
     if (onSnake(apple)) {
@@ -96,9 +81,6 @@ function update(){
         apple = getRandomApplePosition();
     }
     addSkins();
-
-    
-
 }
 
 function draw(field){
@@ -115,8 +97,7 @@ function draw(field){
     appleEl.style.gridRowStart = apple.y;
     appleEl.style.gridColumnStart = apple.x;
     appleEl.classList.add('apple');
-    field.appendChild(appleEl);
-    
+    field.appendChild(appleEl);    
 }
 
 function expandSnake(amount) {
@@ -197,5 +178,3 @@ window.addEventListener('keydown', e => {
             break;
     }
 })
-
-
